@@ -73,14 +73,23 @@ for link in link_node:
                         os.remove(imgname)
                     except:
                         print("电话Ocr识别出错 phone img recnize error")
-                    txtapi="http://101.100.3.114:8778/sendsms?username=smsuser&password=itauckland0903&phonenumber="+phonenum+"&message="+msgtext
-                    txtreq=urllib.request.Request(txtapi)
-                    txtresp=urllib.request.urlopen(txtreq)
-                    txtdata=txtresp.read().decode('utf-8')
-                    txtjson = json.loads(txtdata)
-                    onepage.append(str(txtjson["report"][0]["1"][0]["time"]))
-                    onepage.append(str(txtjson["report"][0]["1"][0]["result"]))
-                    print(txtjson["report"][0]["1"][0]["result"])
+                    
+                    try:
+                        if phonenum.startswith("02"):
+                            txtapi="http://101.100.3.114:8778/sendsms?username=smsuser&password=itauckland0903&phonenumber="+phonenum+"&message="+msgtext
+                            txtreq=urllib.request.Request(txtapi)
+                            txtresp=urllib.request.urlopen(txtreq)
+                            txtdata=txtresp.read().decode('utf-8')
+                            txtjson = json.loads(txtdata)
+                            onepage.append(str(txtjson["report"][0]["1"][0]["time"]))
+                            onepage.append(str(txtjson["report"][0]["1"][0]["result"]))
+                            print(txtjson["report"][0]["1"][0]["result"])
+                        else:
+                            onepage.append(str("phone num err"))
+                            onepage.append(str("phone num err"))
+                    except:
+                        onepage.append(str("send err"))
+                        onepage.append(str("send err"))
                 else:
                     onepage.append(str(td.getText()))
                     print (td.getText())
