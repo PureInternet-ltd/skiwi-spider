@@ -16,7 +16,7 @@ from datetime import datetime, timedelta, date
 
 from bs4 import BeautifulSoup
 
-howmany = 2
+howmany = 20
 msgtext = "%E6%82%A8%E5%A5%BD%EF%BC%8C%E6%88%91%E4%BB%AC%E6%B3%A8%E6%84%8F%E5%88%B0%E6%82%A8%E5%8F%91%E5%B8%83%E6%96%B0%E7%9A%84%E7%A7%9F%E6%88%BF%EF%BC%8CRental%20NZ%E5%85%8D%E8%B4%B9%E5%8F%91%E5%B8%83%E7%A7%9F%E6%88%BF%EF%BC%8C%E7%BD%91%E5%9D%80%EF%BC%9A%20http%3A%2F%2Frentalnz.co.nz%2F%20%E5%AE%A2%E6%9C%8D%E5%BE%AE%E4%BF%A1%EF%BC%9ARentalNZ"
 url = "http://bbs.skykiwi.com/forum.php?mod=forumdisplay&fid=19&orderby=dateline&sortid=287&filter=author&page=1"
 #url = "https://www.google.com"
@@ -74,22 +74,22 @@ for link in link_node:
                     except:
                         print("电话Ocr识别出错 phone img recnize error")
                     
-                    # try:
-                    #     if phonenum.startswith("02"):
-                    #         txtapi="http://101.100.3.114:8778/sendsms?username=smsuser&password=itauckland0903&phonenumber="+phonenum+"&message="+msgtext
-                    #         txtreq=urllib.request.Request(txtapi)
-                    #         txtresp=urllib.request.urlopen(txtreq)
-                    #         txtdata=txtresp.read().decode('utf-8')
-                    #         txtjson = json.loads(txtdata)
-                    #         onepage.append(str(txtjson["report"][0]["1"][0]["time"]))
-                    #         onepage.append(str(txtjson["report"][0]["1"][0]["result"]))
-                    #         print(txtjson["report"][0]["1"][0]["result"])
-                    #     else:
-                    #         onepage.append(str("phone num err"))
-                    #         onepage.append(str("phone num err"))
-                    # except:
-                    #     onepage.append(str("send err"))
-                    #     onepage.append(str("send err"))
+                    try:
+                        if phonenum.startswith("02"):
+                            txtapi="http://101.100.3.114:8778/sendsms?username=smsuser&password=itauckland0903&phonenumber="+phonenum+"&message="+msgtext
+                            txtreq=urllib.request.Request(txtapi)
+                            txtresp=urllib.request.urlopen(txtreq)
+                            txtdata=txtresp.read().decode('utf-8')
+                            txtjson = json.loads(txtdata)
+                            onepage.append(str(txtjson["report"][0]["1"][0]["time"]))
+                            onepage.append(str(txtjson["report"][0]["1"][0]["result"]))
+                            print(txtjson["report"][0]["1"][0]["result"])
+                        else:
+                            onepage.append(str("phone num err"))
+                            onepage.append(str("phone num err"))
+                    except:
+                        onepage.append(str("send err"))
+                        onepage.append(str("send err"))
                 else:
                     onepage.append(str(td.getText()))
                     print (td.getText())
@@ -121,16 +121,3 @@ with open("log/"+currentTime+".csv","w") as files:
     writer.writerow(["title","type","Rent per week","Wechat","phone","time","statue","Content"])
     print(csvfile)
     writer.writerows(csvfile)
-    #写入多行用writerows
-    #writer.writerows([[0,1,3],[1,2,3],[2,3,4]])
-   
-# with open("log/"+currentTime+".csv","wb") as files: 
-#     files.write(codecs.BOM_UTF8)
-#     writer = csv.writer(files, dialect='excel')
-#     #先写入columns_name
-#     writer.writerow(["标题","类型","每周租金","微信","联系电话","内容"])
-#     #print(csvfile)
-#     writer.writerows(csvfile)
-
-#     #写入多行用writerows
-#     #writer.writerows([[0,1,3],[1,2,3],[2,3,4]])
