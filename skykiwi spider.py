@@ -115,7 +115,7 @@ import codecs
 if(not(os.path.exists("log"))):
     os.makedirs("log")
 
-currentTime = datetime.now().strftime("%d_%m_%Y %H.%M.%S %f")
+currentTime = datetime.now().strftime("%Y_%m_%d %H.%M.%S %f")
 with open("log/"+currentTime+".csv","w") as files: 
     files.write('\ufeff')
     writer = csv.writer(files, dialect='excel')
