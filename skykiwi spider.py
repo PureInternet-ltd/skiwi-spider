@@ -17,6 +17,7 @@ from datetime import datetime, timedelta, date
 
 from bs4 import BeautifulSoup
 
+pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 howmany = 20
 advtizText = "您好，我们注意到您发布了新的出租信息，http://www.rentalnz.co.nz/ 可免费发布租房广告，客服微信：RentalNZ"
 msgtext = urllib.parse.quote(advtizText)
@@ -69,7 +70,8 @@ for link in link_node:
                     print("image link: http://bbs.skykiwi.com/"+td.find('image')["src"])
                     urlretrieve("http://bbs.skykiwi.com/"+td.find('image')["src"], imgname)
                     try:
-                        phonenum=pytesseract.image_to_string(Image.open(imgname))#,lang='chi_sim')
+                        phonenum=pytesseract.image_to_string(Image.open(imgname))#,lang='eng')
+                        phonenum = re.sub('[^\d.]+', '', phonenum)
                         onepage.append(str(phonenum))
                         print(phonenum)
                         os.remove(imgname)
