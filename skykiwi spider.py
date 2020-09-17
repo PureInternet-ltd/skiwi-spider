@@ -5,6 +5,7 @@ import re
 import csv
 import time
 import random
+import io
 
 import json
 
@@ -118,7 +119,7 @@ if(not(os.path.exists("log"))):
     os.makedirs("log")
 
 currentTime = datetime.now().strftime("%Y_%m_%d %H.%M.%S %f")
-with open("log/"+currentTime+".csv","w") as files: 
+with io.open("log/"+currentTime+".csv","w", encoding="utf-8") as files: 
     files.write('\ufeff')
     writer = csv.writer(files, dialect='excel')
     #先写入columns_name
